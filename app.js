@@ -2,19 +2,33 @@
 
 const   express     = require('express'),
         mongoose    = require('mongoose'),
+        session     = require('express-session'),
+        passport    = require('passport'),
         path        = require('path'),
         morgan      = require('morgan'),
         app         = express(),
         PORT        = process.env.PORT || 5000;
         Product     = require('./models/product');
+        User        = require('./models/user');
 
 mongoose.connect("mongodb://localhost/MERN");
 
-const   productRoutes     = require('./routes/product');
+const   productRoutes           = require('./routes/product'),
+        authenticationRoutes    = require('./routes/authentication');
 
-app.use(morgan('tiny'));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: false}));
+app.use(morgan('tiny'));
+
+app.use(session({
+    secret: 'This is a secret key!',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Product.remove({});
 
@@ -59,6 +73,7 @@ app.use(express.urlencoded({extended: true}));
 //     });
 // });
 
-app.use("/", productRoutes);
+app.use("/", authenticationRoutes)
+app.use("/products", productRoutes);
 
 app.listen(PORT, () => console.log('Server is up and running'));
