@@ -9,7 +9,7 @@ router.get('/', (request, response) => {
 });
 
 router.get('/:id', (request, response) => {
-    Product.findById(request.paramsd)
+    Product.findById(request.params.id)
     .then(data => response.json(data))
     .catch(error => console.log(error));
 });

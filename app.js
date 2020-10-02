@@ -17,7 +17,7 @@ const   productRoutes           = require('./routes/product'),
         authenticationRoutes    = require('./routes/authentication');
 
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 app.use(morgan('tiny'));
 
 app.use(session({
