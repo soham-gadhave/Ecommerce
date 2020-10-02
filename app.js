@@ -73,7 +73,7 @@ passport.deserializeUser(User.deserializeUser());
 //     });
 // });
 
-app.use("/", authenticationRoutes)
-app.use("/products", productRoutes);
+app.use("/api", authenticationRoutes)
+app.use("/api/products", productRoutes);
 
 app.listen(PORT, () => console.log('Server is up and running'));
